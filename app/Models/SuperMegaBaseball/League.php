@@ -4,8 +4,9 @@ namespace App\Models\SuperMegaBaseball;
 
 use Illuminate\Database\Eloquent\Model;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Conference extends Model
+class League extends Model
 {
 
     use HasUUID;
@@ -13,23 +14,15 @@ class Conference extends Model
     protected $fillable = [
         'GUID',
         'originalGUID',
-        'teamGUID',
-        'power',
-        'contact',
-        'speed',
-        'fielding',
-        'arm',
-        'velocity',
-        'junk',
-        'accuracy',
-        'age'
+        'name',
+        'allowedTeamType'
     ];
 
 
     protected $hidden = ['GUID'];
 
     protected $connection = 'sqlite';
-    protected $table = 't_baseball_players';
+    protected $table = 't_leagues';
 
     protected $primaryKey = 'GUID';
     protected $keyType = 'string';
@@ -40,9 +33,8 @@ class Conference extends Model
     public $timestamps = false;
 
 
-
-    function PlayerLocalID() {
-        return $this->hasOne('App\Models\SuperMegaBaseball\PlayerLocalID', 'GUID', 'GUID');
+    function conference(): HasMany {
+        return $this->hasMany('App\Models\SuperMegaBaseball\Conference', 'GUID', 'GUID');
     }
 
 }

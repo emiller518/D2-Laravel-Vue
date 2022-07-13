@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Basketball;
 
-use App\Repositories\PlayByPlayRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\Basketball\PlayByPlayRepository;
 use DB;
 
 

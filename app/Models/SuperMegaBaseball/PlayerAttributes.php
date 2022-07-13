@@ -4,28 +4,19 @@ namespace App\Models\SuperMegaBaseball;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Player extends Model
+class PlayerAttributes extends Model
 {
     protected $fillable = [
-        'GUID',
-        'originalGUID',
-        'teamGUID',
-        'power',
-        'contact',
-        'speed',
-        'fielding',
-        'arm',
-        'velocity',
-        'junk',
-        'accuracy',
-        'age'
+        'baseballPlayerLocalID',
+        'optionKey',
+        'optionValue',
+        'optionType'
     ];
 
     protected $connection = 'sqlite';
-    protected $table = 't_baseball_players';
+    protected $table = 't_baseball_player_options';
 
-    protected $primaryKey = 'GUID';
-    protected $keyType = 'string';
+    protected $primaryKey = 'baseballPlayerLocalID';
     public $incrementing = false;
 
     public $timestamps = false;

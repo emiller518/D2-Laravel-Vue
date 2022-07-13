@@ -5,7 +5,7 @@ namespace App\Models\SuperMegaBaseball;
 use Illuminate\Database\Eloquent\Model;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 
-class Conference extends Model
+class Team extends Model
 {
 
     use HasUUID;

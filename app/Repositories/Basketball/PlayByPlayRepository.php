@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Basketball;
 
 use App\Models\Basketball\PlayByPlay;
 use DB;

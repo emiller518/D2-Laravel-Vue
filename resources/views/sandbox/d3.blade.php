@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <charts></charts>
+    <d3></d3>
 
 </x-app-layout>
 

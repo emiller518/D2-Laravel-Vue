@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,12 +29,12 @@ class PlayByPlay extends Model
         'PlayByPlayID'
     ];
 
+    protected $connection = 'mysql';
     protected $table = 'PlayByPlay';
     public $timestamps = false;
-    protected $connection = 'mysql';
 
     function Game() {
-        return $this->HasOne('App\Models\Game', 'GameID', 'GameID');
+        return $this->HasOne('App\Models\Basketball\Game', 'GameID', 'GameID');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,33 +27,33 @@ class Game extends Model
         'Site'
     ];
 
-    protected $connection = 'sqlite';
+    protected $connection = 'mysql';
     protected $table = 'Game';
     protected $primaryKey = 'GameID';
     public $timestamps = false;
 
     function WinningTeam() {
-        return $this->HasOne('App\Models\Team', 'TeamID', 'WinID');
+        return $this->HasOne('App\Models\Basketball\Team', 'TeamID', 'WinID');
     }
 
     function LosingTeam() {
-        return $this->HasOne('App\Models\Team', 'TeamID', 'LossID');
+        return $this->HasOne('App\Models\Basketball\Team', 'TeamID', 'LossID');
     }
 
     function HomeTeam() {
-        return $this->HasOne('App\Models\Team', 'TeamID', 'HomeID');
+        return $this->HasOne('App\Models\Basketball\Team', 'TeamID', 'HomeID');
     }
 
     function AwayTeam() {
-        return $this->HasOne('App\Models\Team', 'TeamID', 'AwayID');
+        return $this->HasOne('App\Models\Basketball\Team', 'TeamID', 'AwayID');
     }
 
     function PlayerStats(){
-            return $this->HasMany('App\Models\PlayerStats', 'GameID', 'GameID');
+            return $this->HasMany('App\Models\Basketball\PlayerStats', 'GameID', 'GameID');
     }
 
     function Season(){
-        return $this->HasMany('App\Models\Season', 'SeasonID', 'SeasonID');
+        return $this->HasMany('App\Models\Basketball\Season', 'SeasonID', 'SeasonID');
     }
 
 }

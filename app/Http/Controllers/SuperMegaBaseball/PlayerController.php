@@ -3,27 +3,28 @@
 namespace App\Http\Controllers\SuperMegaBaseball;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\SuperMegaBaseball\PlayerRepository;
 use DB;
 
-class SMBController extends Controller
+class PlayerController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @var PlayerRepository
      */
-    public function index()
+    private $playerRepository;
+
+    /**
+     * @param PlayerRepository $playerRepository
+     */
+    public function __construct(PlayerRepository $playerRepository)
     {
-        $users = DB::connection('sqlite')->select();
+        $this->playerRepository = $playerRepository;
     }
+
+    public function playerOverview(){
+        $players = $this->playerRepository->getPlayerData();
+        return view('smb')->with(compact('players'));
+    }
+
 }

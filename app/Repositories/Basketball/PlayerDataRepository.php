@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Basketball;
 
 use App\Models\Basketball\Player;
 use App\Models\Basketball\PlayerStats;

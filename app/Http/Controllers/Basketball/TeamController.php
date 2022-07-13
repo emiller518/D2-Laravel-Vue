@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Basketball;
 
+use App\Http\Controllers\Controller;
 use App\Models\Basketball\Player;
 use App\Models\Basketball\PlayerStats;
 use App\Models\Basketball\Season;
-use App\Repositories\TeamDataRepository;
+use App\Repositories\Basketball\TeamDataRepository;
 use DB;
+use function view;
 
 class TeamController extends Controller {
 

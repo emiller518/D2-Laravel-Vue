@@ -1,7 +1,5 @@
 <template>
 
-
-
     <Line
         v-if="loaded"
         :chart-data="chartData"
@@ -20,26 +18,27 @@
 <script>
 import axios from "axios";
 import { Line } from 'vue-chartjs'
+
 //import { Chart as ChartJS, Title, Tooltip, LineController, LineElement, PointElement, Legend, CategoryScale, LinearScale } from 'chart.js'
-import {Chart as ChartJS, registerables} from 'chart.js'
+import {Chart, registerables} from 'chart.js'
 import 'chartjs-adapter-date-fns';
 
-ChartJS.register(...registerables)
+
+Chart.register(...registerables)
 
 export default {
     name: "charts",
     components: { Line },
 
     async mounted () {
-        this.loaded = true
 
+        this.loaded = true
 
         try {
             axios.get('/api/playbyplay/getplaybyplayscore/20200301548').then(resp => {
                 this.chartData.datasets[0].data = resp.data.map((x) => x['HomeScore']);
                 this.chartData.datasets[1].data = resp.data.map((x) => x['AwayScore']);
-                this.chartData.labels = resp.data.map((x) => x['Time']);
-                //this.chartOptions.scales.xAxes.time.ticks.source = resp.data.map((x) => x['secs']);
+                this.chartData.labels = resp.data.map((x) => x['Minutes']);
             });
 
             this.loaded = true
@@ -73,10 +72,10 @@ export default {
             type: Object,
             default: () => {}
         },
-        plugins: {
-            type: Object,
-            default: () => {},
-        },
+        // plugins: {
+        //     type: Object,
+        //     default: () => {},
+        // },
 
     },
 
@@ -90,41 +89,71 @@ export default {
                         data: [],
                         label: "Home",
                         borderColor: "#3e95cd",
-                        fill: false
+                        fill: false,
+                        pointRadius: 0
                     },
                     {
                         data: [],
                         label: "Away",
                         borderColor: "#8e5ea2",
-                        fill: false
+                        fill: false,
+                        pointRadius: 0
                     }
                 ],
             },
             chartOptions: {
                 scales: {
-                    // xAxes: {
-                    //     type: 'timeseries',
-                    //     time: {
-                    //         ticks: {
-                    //             source: []
-                    //         },
-                    //         unit: 'minute',
-                    //         displayFormats: {
-                    //             minute: 'mm:ss'
-                    //         },
-                    //         // stepSize: 1,
-                    //         // round: false,
-                    //     }
+                    xAxes: {
+                        type: 'time',
+                        time: {
+                            ticks: {
+                                source: [],
+                                callback: function(value, index, values) {
+                                    return this.chartData.labels[index];
+                                }
+                            },
+                            parser: 'm:ss',
+                            unit: 'minute',
+                            displayFormats: {
+                                minute: 'm:ss'
+                            },
+                            stepSize: 5,
+                            // round: false,
+                        },
                     }
+                },
+                plugins: {
+                    tooltip: {
+                        intersect: false
+                    },
+                },
+                annotation: {
+                    annotations: [
+                        {
+                            drawTime: "afterDatasetsDraw",
+                            type: "line",
+                            mode: "vertical",
+                            scaleID: "x-axis-0",
+                            value: 20,
+                            borderWidth: 5,
+                            borderColor: "red",
+                            label: {
+                                content: "TODAY",
+                                enabled: true,
+                                position: "top"
+                            }
+                        }
+                    ]
                 }
-            }
+
+            },
+
+        }
     },
 
     created() {
     },
 
-    methods: {
-    }
 }
 
 

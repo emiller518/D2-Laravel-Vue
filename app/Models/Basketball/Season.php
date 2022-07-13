@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +13,7 @@ class Season extends Model
         'EndDate'
     ];
 
+    protected $connection = 'mysql';
     protected $table = 'Season';
     public $timestamps = false;
 

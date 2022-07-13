@@ -1,21 +1,7 @@
-// require ('./bootstrap')
-import Vue from 'vue'
-import mysection from './vue/playerprofile'
-import newsection from './vue/teamprofile'
+require('./bootstrap');
 
-new Vue({
-    el: '#q',
-    components: {mysection},
-});
+const {initializeApp, ADMIN_MOUNT_SELECTOR} = require('./vue/vue');
 
-
-var app5 = new Vue({
-    el: '#myid2',
-    component: {newsection},
-});
-
-
-// Vue.component(
-//     'example-component',
-//     require('./components/ExampleComponent').default
-// )
+if (document.querySelector(ADMIN_MOUNT_SELECTOR)) {
+    initializeApp();
+}

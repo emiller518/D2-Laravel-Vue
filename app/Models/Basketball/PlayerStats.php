@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,15 +29,16 @@ class PlayerStats extends Model
         'PlusMinusOff'
     ];
 
+    protected $connection = 'mysql';
     protected $table = 'PlayerStats';
     public $timestamps = false;
 
     function Player() {
-        return $this->belongsTo('App\Models\Player', 'PlayerID', 'PlayerID', 'PlayerID');
+        return $this->belongsTo('App\Models\Basketball\Player', 'PlayerID', 'PlayerID', 'PlayerID');
     }
 
     function Game() {
-        return $this->belongsTo('App\Models\Game', 'GameID', 'GameID', 'GameID');
+        return $this->belongsTo('App\Models\Basketball\Game', 'GameID', 'GameID', 'GameID');
     }
 
 }

@@ -35,8 +35,18 @@
     <br /> <br /> <br />
     <a href="/todoapp">To Do App</a> <br>
     <a href="/javascript">Javascript</a> <br>
-    <a href="/vue">Vue Test</a>
+    <a href="/vue">Vue Test</a> <br>
+    <a href="/vuechartjs">Vue Chartjs</a> <br>
+    <a href="/chartjs">Chartjs</a> <br>
+    <a href="/d3">d3</a>
 
+    <div id="app">
+        <example></example>
+    </div>
 
     </body>
+
+    <script src="{{mix('js/app.js')}}"></script>
+
 </html>
+

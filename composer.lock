@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cf14086919a839fe740e00554e4baff6",
+    "content-hash": "ba152a2899677be2951f1821c0eff156",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,52 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
+        },
+        {
+            "name": "binarycabin/laravel-uuid",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/binarycabin/laravel-uuid.git",
+                "reference": "0d1d0179fa3873f089d62065dccbd5eb123c3b77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/binarycabin/laravel-uuid/zipball/0d1d0179fa3873f089d62065dccbd5eb123c3b77",
+                "reference": "0d1d0179fa3873f089d62065dccbd5eb123c3b77",
+                "shasum": ""
+            },
+            "require": {
+                "webpatser/laravel-uuid": "2.*"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BinaryCabin\\LaravelUUID\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Kilroy",
+                    "email": "jeff@binarycabin.com"
+                }
+            ],
+            "description": "A wrapper for webpatser/laravel-uuid with additional integration",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/binarycabin/laravel-uuid/issues",
+                "source": "https://github.com/binarycabin/laravel-uuid/tree/master"
+            },
+            "time": "2019-03-08T03:06:27+00:00"
         },
         {
             "name": "brick/math",
@@ -417,6 +463,75 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "emadadly/laravel-uuid",
+            "version": "v1.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/EmadAdly/laravel-uuid.git",
+                "reference": "e5e6f924a83371f93bb70988c6cfb53233252296"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/EmadAdly/laravel-uuid/zipball/e5e6f924a83371f93bb70988c6cfb53233252296",
+                "reference": "e5e6f924a83371f93bb70988c6cfb53233252296",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "6.*|7.*|8.*",
+                "php": "^7.0|^8.0"
+            },
+            "require-dev": {
+                "laravel/framework": "6.*|7.*|8.*",
+                "phpunit/phpunit": "~6.0|7.0.*",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.2.1-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Emadadly\\LaravelUuid\\LaravelUuidServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Emadadly\\LaravelUuid\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emad Adly",
+                    "email": "thisEmad@gmail.com",
+                    "homepage": "http://devgist.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "laravel uuid a simple, automatic UUID generator for any model based on Laravel.",
+            "homepage": "https://github.com/emadadly/laravel-uuid",
+            "keywords": [
+                "Laravel UUID",
+                "emadadly",
+                "generator",
+                "guid",
+                "laravel",
+                "laravel-guid",
+                "laravel-uuid",
+                "uuid"
+            ],
+            "support": {
+                "issues": "https://github.com/EmadAdly/laravel-uuid/issues",
+                "source": "https://github.com/EmadAdly/laravel-uuid/tree/v1.3.3"
+            },
+            "time": "2021-11-05T13:41:52+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -5134,6 +5249,64 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "webpatser/laravel-uuid",
+            "version": "2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webpatser/laravel-uuid.git",
+                "reference": "c87d5c631938edad7aae96d27881e3ea3de23d80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webpatser/laravel-uuid/zipball/c87d5c631938edad7aae96d27881e3ea3de23d80",
+                "reference": "c87d5c631938edad7aae96d27881e3ea3de23d80",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "1.5.*",
+                "phpunit/phpunit": "4.7.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "A random_bytes Php 5.x polyfill."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Uuid": "Webpatser\\Uuid\\Uuid"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Webpatser\\Uuid": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoph Kempen",
+                    "email": "christoph@downsized.nl"
+                }
+            ],
+            "description": "Class to generate a UUID according to the RFC 4122 standard. Support for version 1, 3, 4 and 5 UUID are built-in.",
+            "homepage": "https://github.com/webpatser/uuid",
+            "keywords": [
+                "UUID RFC4122"
+            ],
+            "support": {
+                "issues": "https://github.com/webpatser/uuid/issues",
+                "source": "https://github.com/webpatser/uuid"
+            },
+            "time": "2017-09-10T21:34:32+00:00"
         }
     ],
     "packages-dev": [

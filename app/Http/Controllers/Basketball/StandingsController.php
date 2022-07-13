@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Basketball;
 
+
+use App\Http\Controllers\Controller;
+use function view;
 
 class StandingsController extends Controller {
 

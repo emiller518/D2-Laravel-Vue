@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,6 +20,7 @@ class Team extends Model
         'Active'
     ];
 
+    protected $connection = 'mysql';
     protected $table = 'Team';
     protected $primaryKey = 'TeamID';
     public $timestamps = false;

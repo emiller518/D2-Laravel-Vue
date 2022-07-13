@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Basketball;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +17,7 @@ class PlayerYear extends Model
         'PlayerYearID'
     ];
 
+    protected $connection = 'mysql';
     protected $table = 'PlayerYear';
     public $timestamps = false;
 
@@ -25,15 +26,15 @@ class PlayerYear extends Model
     }
 
     function Team(){
-        return $this->hasOne('App\Models\Team', 'TeamID', 'TeamID');
+        return $this->hasOne('App\Models\Basketball\Team', 'TeamID', 'TeamID');
     }
 
     function Season(){
-        return $this->hasOne('App\Models\Season', 'SeasonID', 'SeasonID');
+        return $this->hasOne('App\Models\Basketball\Season', 'SeasonID', 'SeasonID');
     }
 
     function Class(){
-        return $this->hasOne('App\Models\Classification', 'ClassID', 'ClassID');
+        return $this->hasOne('App\Models\Basketball\Classification', 'ClassID', 'ClassID');
     }
 
 
