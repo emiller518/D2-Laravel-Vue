@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sandbox;
 
+use App\Http\Controllers\Controller;
 use App\Repositories\Basketball\PlayerDataRepository;
 use DB;
+use function view;
 
 class SandboxController extends Controller {
     /**

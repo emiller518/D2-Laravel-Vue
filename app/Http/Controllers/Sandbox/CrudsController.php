@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sandbox;
 
 use App\Crud;
+use App\Http\Controllers\Controller;
+use Faker\Generator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Faker\Generator;
+use function response;
 
 class CrudsController extends Controller
 {

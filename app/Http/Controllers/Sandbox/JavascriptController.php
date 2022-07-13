@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sandbox;
 
+use App\Http\Controllers\Controller;
 use DB;
+use function view;
 
 class JavascriptController extends Controller {
 

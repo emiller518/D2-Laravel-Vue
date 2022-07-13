@@ -2,8 +2,8 @@
 
 namespace App\Repositories\SuperMegaBaseball;
 
-use App\Models\SuperMegaBaseball\Player;
-use App\Models\SuperMegaBaseball\PlayerAttributes;
+use App\Models\SuperMegaBaseball\Player\Player;
+use App\Models\SuperMegaBaseball\Player\PlayerAttributes;
 use DB;
 
 class PlayerRepository

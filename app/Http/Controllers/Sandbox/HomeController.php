@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sandbox;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use function view;
 
 class HomeController extends Controller
 {
