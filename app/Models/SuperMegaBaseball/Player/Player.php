@@ -2,8 +2,10 @@
 
 namespace App\Models\SuperMegaBaseball\Team;
 
+use App\Models\SuperMegaBaseball\Pivot\PlayerLocalID;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Player extends Model
 {
@@ -55,8 +57,12 @@ class Player extends Model
     public $timestamps = false;
 
 
-    function PlayerLocalID() {
-        return $this->hasOne('App\Models\SuperMegaBaseball\Pivot\PlayerLocalID', 'GUID', 'GUID');
+    function PlayerLocalID(): HasOne {
+        return $this->hasOne(PlayerLocalID::class, PlayerLocalID::FIELD_GUID, self::FIELD_GUID);
+    }
+
+    function Team(): HasOne {
+        return $this->hasOne(Team::class, Team::FIELD_GUID, self::FIELD_TEAM_GUID);
     }
 
 }

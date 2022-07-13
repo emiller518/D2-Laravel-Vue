@@ -2,7 +2,9 @@
 
 namespace App\Models\SuperMegaBaseball\Player;
 
+use App\Models\SuperMegaBaseball\Pivot\PlayerLocalID;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class PlayerOption extends Model
 {
@@ -27,5 +29,9 @@ class PlayerOption extends Model
     public $incrementing = false;
 
     public $timestamps = false;
+
+    function PlayerLocalID(): HasOne {
+        return $this->hasOne(PlayerLocalID::class, PlayerLocalID::FIELD_LOCAL_ID, self::FIELD_LOCAL_ID);
+    }
 
 }
