@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Basketball;
 
-use App\Models\PlayerStats;
-use App\Models\Player;
+use App\Models\Basketball\Player;
+use App\Models\Basketball\PlayerStats;
 use DB;
 
 class PlayerDataRepository

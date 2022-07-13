@@ -2,9 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Models\PlayerStats;
-use App\Models\Player;
-use App\Models\Team;
+use App\Models\Basketball\Team;
 use DB;
 
 class TeamDataRepository

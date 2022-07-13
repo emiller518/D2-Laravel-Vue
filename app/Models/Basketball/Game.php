@@ -27,6 +27,7 @@ class Game extends Model
         'Site'
     ];
 
+    protected $connection = 'sqlite';
     protected $table = 'Game';
     protected $primaryKey = 'GameID';
     public $timestamps = false;

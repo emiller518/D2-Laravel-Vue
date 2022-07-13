@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Game;
-
 
 class StandingsController extends Controller {
 

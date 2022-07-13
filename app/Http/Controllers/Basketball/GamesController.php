@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Basketball\Game;
+use App\Models\Basketball\PlayerStats;
+use App\Repositories\PlayByPlayRepository;
 use DB;
-use App\Models\Game;
-use App\Models\PlayerStats;
 
 
 class GamesController extends Controller {
+
+    public function __construct(PlayByPlayRepository $gameRepository)
+    {
+        $this->gameRepository = $gameRepository;
+    }
 
     // Retrieve function
     public function index($id) {
@@ -44,7 +50,6 @@ class GamesController extends Controller {
         }
 
         return view('game')->with(compact('GameStats', 'HomePlayerStats', 'AwayPlayerStats'));
-
     }
 
 }

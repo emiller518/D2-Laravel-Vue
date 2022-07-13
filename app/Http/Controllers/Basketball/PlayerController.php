@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
-use App\Models\PlayerStats;
 use App\Repositories\PlayerDataRepository;
 use DB;
 

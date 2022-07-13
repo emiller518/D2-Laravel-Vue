@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
-use App\Models\Season;
-use App\Models\PlayerStats;
-use Illuminate\Http\Request;
-use DB;
+use App\Models\Basketball\Player;
+use App\Models\Basketball\PlayerStats;
+use App\Models\Basketball\Season;
 use App\Repositories\TeamDataRepository;
+use DB;
 
 class TeamController extends Controller {
 
