@@ -2,7 +2,7 @@ import {createApp} from 'vue'
 
 import charts from "./chartjs";
 import d3 from "./d3";
-import smbeditor from "./smbeditor"
+import smbeditor from "./SuperMegaBaseball/smbeditor"
 
 export const ADMIN_MOUNT_SELECTOR = '#hoops-app';
 

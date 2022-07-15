@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Routing\Router;
+use App\Http\Controllers\Api\SMBEditorController;
 
 /**
  * This file has been auto-namespaced to App\Http\Controllers\WWW
@@ -31,9 +32,8 @@ Route::get('/player/{id}', 'App\Http\Controllers\PlayerController@playerData');
 Route::get('/team/{abbreviation}', 'App\Http\Controllers\TeamController@teamOverview');
 Route::get('/playbyplay/getplaybyplayscore/{gameID}', 'App\Http\Controllers\PlayByPlayController@gamePlayByPlay');
 
-
-$router->group(['prefix' => 'smb'], function(Router $router) {
-    $router->get('/', 'TopSolarInstallersController@country');
-    $router->get('/{state}', 'TopSolarInstallersController@state');
-    $router->get('/{state}/{city}', 'TopSolarInstallersController@city');
+Route::prefix('/v1')->group(function() {
+    Route::prefix('/smb')->controller(SMBEditorController::class)->group(function(){
+        Route::put('update-player/{id}', 'update');
+    });
 });

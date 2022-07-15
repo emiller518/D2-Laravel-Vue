@@ -3,7 +3,7 @@
 namespace App\Repositories\SuperMegaBaseball;
 
 use App\Models\SuperMegaBaseball\Player\Player;
-use App\Models\SuperMegaBaseball\Player\PlayerAttributes;
+use App\Models\SuperMegaBaseball\Player\PlayerOption;
 use DB;
 
 class PlayerRepository
@@ -19,7 +19,7 @@ class PlayerRepository
 
     public function getPlayerData()
     {
-        return PlayerAttributes::query()
+        return PlayerOption::query()
             ->selectRaw('baseballplayerlocalid ID,
                                     max(case when optionkey = 66 then optionvalue end) First,
                                     max(case when optionkey = 67 then optionvalue end) Last,
@@ -41,7 +41,45 @@ class PlayerRepository
             ->get();
     }
 
+    public function update($playerId, $optionKey = 66, $optionValue = 'Queef')
+    {
+        PlayerOption::query()
+            ->where(PlayerOption::FIELD_LOCAL_ID, '=', $playerId)
+            ->where(PlayerOption::FIELD_OPTION_KEY, '=', $optionKey)
+            ->update([PlayerOption::FIELD_OPTION_VALUE => $optionValue]);
+
+        echo('yes');
+    }
+
 }
+
+
+
+//      -- Update any baseball stat attribute
+//UPDATE t_baseball_players
+//SET age = 33
+//where GUID in (select GUID from t_baseball_player_local_ids where localid = 3129)
+//and age IS NOT NULL;
+//
+//      -- Update any visualization attribute
+//UPDATE t_baseball_player_options
+//SET optionValue = 0
+//WHERE baseballPlayerLocalID = 3129 and optionKey = 1;
+//
+//      -- Baseball Stat Pseudocode for API
+//UPDATE t_baseball_players
+//SET [variable] = [changed text value]
+//where GUID in (select GUID from t_baseball_player_local_ids where localid = [playerid])
+//and [variable] IS NOT NULL; -- this prevents players getting pitcher data or vice versa
+//
+//      -- Visualization Pseudocode for API
+//UPDATE t_baseball_player_options
+//SET optionValue = [optionValue]
+//WHERE baseballPlayerLocalID = [playerid] and optionKey = [optionKey];
+
+
+
+
 
 //
 //max(case when optionkey = 0 then optionvalue end) gender,
@@ -88,29 +126,3 @@ class PlayerRepository
 //max(case when optionkey = 92 then optionvalue end) batstyle,
 //max(case when optionkey = 93 then optionvalue end) batgrip,
 //max(case when optionkey = 104 then optionvalue end) helmetstyle
-
-
-
-//      -- Update any baseball stat attribute
-//UPDATE t_baseball_players
-//SET age = 33
-//where GUID in (select GUID from t_baseball_player_local_ids where localid = 3129)
-//and age IS NOT NULL;
-//
-//      -- Update any visualization attribute
-//UPDATE t_baseball_player_options
-//SET optionValue = 0
-//WHERE baseballPlayerLocalID = 3129 and optionKey = 1;
-//
-//      -- Baseball Stat Pseudocode for API
-//UPDATE t_baseball_players
-//SET [variable] = [changed text value]
-//where GUID in (select GUID from t_baseball_player_local_ids where localid = [playerid])
-//and [variable] IS NOT NULL; -- this prevents players getting pitcher data or vice versa
-//
-//      -- Visualization Pseudocode for API
-//UPDATE t_baseball_player_options
-//SET optionValue = [optionValue]
-//WHERE baseballPlayerLocalID = [playerid] and optionKey = [optionKey];
-
-

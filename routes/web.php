@@ -27,6 +27,7 @@ Route::get('/chartjs/', 'App\Http\Controllers\SandboxController@chartjs');
 Route::get('/d3/', 'App\Http\Controllers\SandboxController@d3');
 
 Route::get('/smb/', 'App\Http\Controllers\SuperMegaBaseball\PlayerController@playerOverview');
+Route::get('/smb/dummy', 'App\Http\Controllers\SuperMegaBaseball\PlayerController@playerOverview');
 
 
 Route::get('/', function () {

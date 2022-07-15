@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\SuperMegaBaseball\Team;
+namespace App\Models\SuperMegaBaseball\Player;
 
 use App\Models\SuperMegaBaseball\Pivot\PlayerLocalID;
 use BinaryCabin\LaravelUUID\Traits\HasUUID;
