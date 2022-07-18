@@ -23,6 +23,8 @@
 
     <smbeditor :options="{{$players}}"></smbeditor>
 
+    {{$players}}
+
 </x-app-layout>
 
 

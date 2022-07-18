@@ -2,9 +2,10 @@
 
 namespace App\Repositories\SuperMegaBaseball;
 
+use App\Models\SuperMegaBaseball\Pivot\PlayerLocalID;
 use App\Models\SuperMegaBaseball\Player\Player;
 use App\Models\SuperMegaBaseball\Player\PlayerOption;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class PlayerRepository
 {
@@ -20,18 +21,18 @@ class PlayerRepository
     public function getPlayerData()
     {
         return PlayerOption::query()
-            ->selectRaw('baseballplayerlocalid ID,
-                                    max(case when optionkey = 66 then optionvalue end) First,
-                                    max(case when optionkey = 67 then optionvalue end) Last,
-                                    t_baseball_players.age Age,
-                                    t_baseball_players.power Power,
-                                    t_baseball_players.contact Contact,
-                                    t_baseball_players.speed Speed,
-                                    t_baseball_players.fielding Fielding,
-                                    t_baseball_players.arm Arm,
-                                    t_baseball_players.velocity Velocity,
-                                    t_baseball_players.junk Junk,
-                                    t_baseball_players.accuracy Accuracy')
+            ->selectRaw('baseballplayerlocalid playerId,
+                                    max(case when optionkey = 66 then optionvalue end) first,
+                                    max(case when optionkey = 67 then optionvalue end) last,
+                                    t_baseball_players.age,
+                                    t_baseball_players.power,
+                                    t_baseball_players.contact,
+                                    t_baseball_players.speed,
+                                    t_baseball_players.fielding,
+                                    t_baseball_players.arm,
+                                    t_baseball_players.velocity,
+                                    t_baseball_players.junk,
+                                    t_baseball_players.accuracy')
             ->leftJoin('t_baseball_player_local_ids', 't_baseball_player_options.baseballplayerlocalid', '=', 't_baseball_player_local_ids.localID')
             ->leftJoin('t_baseball_players', 't_baseball_player_local_ids.GUID', '=', 't_baseball_players.GUID')
             ->leftJoin('t_teams', 't_teams.GUID', '=', 't_baseball_players.teamGUID')
@@ -41,45 +42,24 @@ class PlayerRepository
             ->get();
     }
 
-    public function update($playerId, $optionKey = 66, $optionValue = 'Queef')
+    public function updateVisuals($playerId, $optionKey, $optionValue)
     {
         PlayerOption::query()
             ->where(PlayerOption::FIELD_LOCAL_ID, '=', $playerId)
             ->where(PlayerOption::FIELD_OPTION_KEY, '=', $optionKey)
             ->update([PlayerOption::FIELD_OPTION_VALUE => $optionValue]);
+    }
 
-        echo('yes');
+    // NEED FEEDBACK: SQL Injection Possibilities for this?
+    public function updateStats($playerId, $optionKey, $optionValue){
+        Player::query()
+            ->whereNotNull($optionKey)
+            ->whereIn(Player::FIELD_GUID,
+                        [DB::RAW("(select " . Player::FIELD_GUID . " from " . PlayerLocalID::TABLE . " where localID = " . $playerId . ")")])
+            ->update([$optionKey => $optionValue]);
     }
 
 }
-
-
-
-//      -- Update any baseball stat attribute
-//UPDATE t_baseball_players
-//SET age = 33
-//where GUID in (select GUID from t_baseball_player_local_ids where localid = 3129)
-//and age IS NOT NULL;
-//
-//      -- Update any visualization attribute
-//UPDATE t_baseball_player_options
-//SET optionValue = 0
-//WHERE baseballPlayerLocalID = 3129 and optionKey = 1;
-//
-//      -- Baseball Stat Pseudocode for API
-//UPDATE t_baseball_players
-//SET [variable] = [changed text value]
-//where GUID in (select GUID from t_baseball_player_local_ids where localid = [playerid])
-//and [variable] IS NOT NULL; -- this prevents players getting pitcher data or vice versa
-//
-//      -- Visualization Pseudocode for API
-//UPDATE t_baseball_player_options
-//SET optionValue = [optionValue]
-//WHERE baseballPlayerLocalID = [playerid] and optionKey = [optionKey];
-
-
-
-
 
 //
 //max(case when optionkey = 0 then optionvalue end) gender,
@@ -89,40 +69,40 @@ class PlayerRepository
 //max(case when optionkey = 12 then optionvalue end) head,
 //max(case when optionkey = 14 then optionvalue end) eyebrows,
 //max(case when optionkey = 15 then optionvalue end) hair,
-//max(case when optionkey = 16 then optionvalue end) facialhair,
-//max(case when optionkey = 17 then optionvalue end) eyeblack,
-//max(case when optionkey = 18 then optionvalue end) UNK_helmettar,
-//max(case when optionkey = 19 then optionvalue end) UNK_eyewear,
+//max(case when optionkey = 16 then optionvalue end) facialHair,
+//max(case when optionkey = 17 then optionvalue end) eyeBlack,
+//max(case when optionkey = 18 then optionvalue end) helmetTar,
+//max(case when optionkey = 19 then optionvalue end) eyeWear,
 //max(case when optionkey = 20 then optionvalue end) number,
 //max(case when optionkey = 22 then optionvalue end) physique,
-//max(case when optionkey = 25 then optionvalue end) elbowguard,
-//max(case when optionkey = 26 then optionvalue end) ankleguard,
-//max(case when optionkey = 27 then optionvalue end) undershirt,
-//max(case when optionkey = 28 then optionvalue end) lefttattoo,
-//max(case when optionkey = 29 then optionvalue end) righttattoo,
-//max(case when optionkey = 30 then optionvalue end) leftsleeve,
-//max(case when optionkey = 31 then optionvalue end) rightsleeve,
+//max(case when optionkey = 25 then optionvalue end) elbowGuard,
+//max(case when optionkey = 26 then optionvalue end) ankleGuard,
+//max(case when optionkey = 27 then optionvalue end) underShirt,
+//max(case when optionkey = 28 then optionvalue end) leftTattoo,
+//max(case when optionkey = 29 then optionvalue end) rightTattoo,
+//max(case when optionkey = 30 then optionvalue end) leftSleeve,
+//max(case when optionkey = 31 then optionvalue end) rightSleeve,
 //max(case when optionkey = 32 then optionvalue end) pants,
 //max(case when optionkey = 36 then optionvalue end) wristband,
-//max(case when optionkey = 39 then optionvalue end) battingglove,
+//max(case when optionkey = 39 then optionvalue end) battingGlove,
 //max(case when optionkey = 40 then optionvalue end) cleats,
-//max(case when optionkey = 41 then optionvalue end) wristtape,
-//max(case when optionkey = 48 then optionvalue end) UNK_windup,
-//max(case when optionkey = 49 then optionvalue end) UNK_armangle,
-//max(case when optionkey = 50 then optionvalue end) battingroutine,
-//max(case when optionkey = 51 then optionvalue end) battingstance,
-//max(case when optionkey = 52 then optionvalue end) walkupsong,
-//max(case when optionkey = 53 then optionvalue end) UNKNOWN,
-//max(case when optionkey = 54 then optionvalue end) UNK_primarypos,
-//max(case when optionkey = 57 then optionvalue end) option57,
-//max(case when optionkey = 58 then optionvalue end) option58,
-//max(case when optionkey = 59 then optionvalue end) option59,
-//max(case when optionkey = 60 then optionvalue end) option60,
-//max(case when optionkey = 61 then optionvalue end) option61,
-//max(case when optionkey = 62 then optionvalue end) option62,
-//max(case when optionkey = 63 then optionvalue end) option63,
-//max(case when optionkey = 64 then optionvalue end) option64,
-//max(case when optionkey = 65 then optionvalue end) option65,
-//max(case when optionkey = 92 then optionvalue end) batstyle,
-//max(case when optionkey = 93 then optionvalue end) batgrip,
-//max(case when optionkey = 104 then optionvalue end) helmetstyle
+//max(case when optionkey = 41 then optionvalue end) wristTape,
+//max(case when optionkey = 48 then optionvalue end) windup,
+//max(case when optionkey = 49 then optionvalue end) armAngle,
+//max(case when optionkey = 50 then optionvalue end) battingRoutine,
+//max(case when optionkey = 51 then optionvalue end) battingStance,
+//max(case when optionkey = 52 then optionvalue end) walkUpSong,
+//max(case when optionkey = 53 then optionvalue end) portrait,
+//max(case when optionkey = 54 then optionvalue end) primaryPosition,
+//max(case when optionkey = 57 then optionvalue end) secondaryPosF,
+//max(case when optionkey = 58 then optionvalue end) secondaryPosP,
+//max(case when optionkey = 59 then optionvalue end) pFourSeam,
+//max(case when optionkey = 60 then optionvalue end) pTwoSeam,
+//max(case when optionkey = 61 then optionvalue end) pScrewBall,
+//max(case when optionkey = 62 then optionvalue end) pChangeUp,
+//max(case when optionkey = 63 then optionvalue end) pForkBall,
+//max(case when optionkey = 64 then optionvalue end) pCurveBall,
+//max(case when optionkey = 65 then optionvalue end) pCutFastBall,
+//max(case when optionkey = 92 then optionvalue end) batStyle,
+//max(case when optionkey = 93 then optionvalue end) batGrip,
+//max(case when optionkey = 104 then optionvalue end) helmetStyle

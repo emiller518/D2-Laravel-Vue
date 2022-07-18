@@ -34,6 +34,7 @@ Route::get('/playbyplay/getplaybyplayscore/{gameID}', 'App\Http\Controllers\Play
 
 Route::prefix('/v1')->group(function() {
     Route::prefix('/smb')->controller(SMBEditorController::class)->group(function(){
-        Route::put('update-player/{id}', 'update');
+        Route::put('update-stats/{id}', 'updateStats');
+        Route::put('update-visuals/{id}', 'updateVisuals');
     });
 });

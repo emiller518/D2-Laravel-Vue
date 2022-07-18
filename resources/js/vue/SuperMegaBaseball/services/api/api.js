@@ -19,7 +19,12 @@ export default class ApiService {
         return new ApiService('api', 'smb', 1);
     }
 
-    updatePlayer(id) {
-        return this.axios().put(`/update-player/${id}`);
+    updateVisuals(id, optionKey, optionValue) {
+        return this.axios().put(`/update-visuals/${id}`, {optionKey: optionKey, optionValue: optionValue});
     }
+
+    updateStats(id, optionKey, optionValue) {
+        return this.axios().put(`/update-stats/${id}`, {optionKey: optionKey, optionValue: optionValue});
+    }
+
 }
