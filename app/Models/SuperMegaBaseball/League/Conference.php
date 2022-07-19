@@ -15,7 +15,7 @@ class Conference extends Model
     const TABLE = 't_conferences';
 
     const FIELD_GUID = 'GUID';
-    const FIELD_LEAGUE_GUID = 'originalGUID';
+    const FIELD_LEAGUE_GUID = 'leagueGUID';
     const FIELD_NAME = 'name';
     const FIELD_USES_DESIGNATED_HITTER = 'usesDesignatedHitter';
 

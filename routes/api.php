@@ -36,5 +36,8 @@ Route::prefix('/v1')->group(function() {
     Route::prefix('/smb')->controller(SMBEditorController::class)->group(function(){
         Route::put('update-stats/{id}', 'updateStats');
         Route::put('update-visuals/{id}', 'updateVisuals');
+        Route::get('get-leagues', 'getLeagues');
+        Route::get('get-teams/{league}', 'getTeams');
+        Route::get('get-players/{team}', 'getPlayers');
     });
 });

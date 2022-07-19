@@ -27,4 +27,16 @@ export default class ApiService {
         return this.axios().put(`/update-stats/${id}`, {optionKey: optionKey, optionValue: optionValue});
     }
 
+    getLeagues(){
+        return this.axios().get(`/get-leagues`)
+    }
+
+    getTeams(league){
+        return this.axios().get(`/get-teams/${league}`)
+    }
+
+    getPlayers(team){
+        return this.axios().get(`/get-players/${team}`)
+    }
+
 }

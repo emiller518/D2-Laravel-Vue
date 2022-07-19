@@ -22699,12 +22699,35 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    this.apiService = _services_api_api__WEBPACK_IMPORTED_MODULE_0__["default"].make();
+    var _this = this;
+
+    this.apiService = _services_api_api__WEBPACK_IMPORTED_MODULE_0__["default"].make(); // NEED FEEDBACK: Can I chain these together in the separate methods I created to update League & Team ?
+
+    this.apiService.getLeagues().then(function (response) {
+      _this.leagues = response['data'];
+      _this.selectedLeague = response['data'][0]['name'];
+
+      _this.apiService.getTeams(_this.selectedLeague).then(function (response) {
+        _this.teams = response['data'];
+        _this.selectedTeam = response['data'][0]['teamName'];
+
+        _this.apiService.getPlayers(_this.selectedTeam).then(function (response) {
+          _this.players = response['data'];
+        });
+      });
+    });
+    console.log(this.options);
   },
   data: function data() {
     return {
       apiService: null,
       changeLog: [],
+      leagues: [],
+      selectedLeague: null,
+      teams: [],
+      selectedTeam: null,
+      players: {},
+      //NEED FEEDBACK: Is there a different file or something I could put this? Kind of an unnecessary wall of text here
       queryAttributes: {
         gender: {
           id: 0,
@@ -23301,19 +23324,38 @@ __webpack_require__.r(__webpack_exports__);
     submitChanges: function submitChanges() {
       for (var i = 0; i < this.changeLog.length; i++) {
         // Select the update script based on the column type, then clear the queue
-        // NEED FEEDBACK: This looks kind of gross, is there a way to fix this ? Should I declare variables for readability?
-        if (this.changeLog[i]['script'] === 'Visualization') {
-          this.updateVisuals(this.changeLog[i]['playerID'], this.changeLog[i]['optionKey'], this.changeLog[i]['optionValue']);
-          console.log(this.changeLog[i]);
-        }
+        var script = this.changeLog[i]['script'];
+        var playerId = this.changeLog[i]['playerID'];
+        var optionKey = this.changeLog[i]['optionKey'];
+        var optionValue = this.changeLog[i]['optionValue'];
 
-        if (this.changeLog[i]['script'] === 'Statistics') {
-          this.updateStats(this.changeLog[i]['playerID'], this.changeLog[i]['optionKey'], this.changeLog[i]['optionValue']);
-          console.log(this.changeLog[i]);
+        if (script === 'Visualization') {
+          this.updateVisuals(playerId, optionKey, optionValue);
+        } else if (script === 'Statistics') {
+          this.updateStats(playerId, optionKey, optionValue);
         }
       }
 
       this.changeLog = [];
+    },
+    changeLeague: function changeLeague() {
+      var _this2 = this;
+
+      this.apiService.getTeams(this.selectedLeague).then(function (response) {
+        _this2.teams = response['data'];
+        _this2.selectedTeam = response['data'][0]['teamName'];
+
+        _this2.apiService.getPlayers(_this2.selectedTeam).then(function (response) {
+          _this2.players = response['data'];
+        });
+      });
+    },
+    changeTeam: function changeTeam() {
+      var _this3 = this;
+
+      this.apiService.getPlayers(this.selectedTeam).then(function (response) {
+        _this3.players = response['data'];
+      });
     }
   }
 });
@@ -23857,15 +23899,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = ["onChange", "value"];
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", null, "Options")], -1
+/* HOISTED */
+);
+
+var _hoisted_2 = ["onChange", "value"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.options[0], function (items, keys) {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return _ctx.selectedLeague = $event;
+    }),
+    onChange: _cache[1] || (_cache[1] = function () {
+      return $options.changeLeague && $options.changeLeague.apply($options, arguments);
+    })
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            NEED FEEDBACK: Is naming it value['name'] like this best practice? Do I edit the query or change the for loop?"), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.leagues, function (league) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(league['name']), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedLeague]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return _ctx.selectedTeam = $event;
+    }),
+    onChange: _cache[3] || (_cache[3] = function () {
+      return $options.changeTeam && $options.changeTeam.apply($options, arguments);
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.teams, function (team) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(team['teamName']), 1
+    /* TEXT */
+    );
+  }), 256
+  /* UNKEYED_FRAGMENT */
+  ))], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTeam]]), _hoisted_1]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.players[0], function (items, keys) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keys), 1
     /* TEXT */
     );
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.options, function (items) {
+  ))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.players, function (items) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(items, function (item, key) {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
         onChange: function onChange(event) {
@@ -23874,23 +23951,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         value: item
       }, null, 40
       /* PROPS, HYDRATE_EVENTS */
-      , _hoisted_1)]);
+      , _hoisted_2)]);
     }), 256
     /* UNKEYED_FRAGMENT */
     ))]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $options.updateVisuals && $options.updateVisuals.apply($options, arguments);
-    }),
-    "class": "transition duration-200 text-xs font-medium focus:outline-none rounded py-1 px-3 mx-2"
-  }, " Visual Debug "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[4] || (_cache[4] = function () {
       return $options.submitChanges && $options.submitChanges.apply($options, arguments);
     }),
     "class": "transition duration-200 text-xs font-medium focus:outline-none rounded py-1 px-3 mx-2"
-  }, " Save "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    options:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    {{options}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <div v-for=\"(items, keys) in options\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        items:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        {{items}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <div v-for=\"(item, key) in items\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            sub-item:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                {{item}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            sub-key:"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                {{key}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        keys: <br>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        {{keys}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    <div v-for=\"(items, keys) in options[0]\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        {{keys}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        <template v-if=\"queryAttributes[keys]\">"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("            <li>{{queryAttributes[keys]['id']}}</li>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("        </template>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    </div>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    {{queryAttributes['First']}}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("    {{queryAttributes[0]}}")], 64
+  }, " Save ")], 64
   /* STABLE_FRAGMENT */
   );
 }
@@ -24066,6 +24138,21 @@ var ApiService = /*#__PURE__*/function () {
         optionKey: optionKey,
         optionValue: optionValue
       });
+    }
+  }, {
+    key: "getLeagues",
+    value: function getLeagues() {
+      return this.axios().get("/get-leagues");
+    }
+  }, {
+    key: "getTeams",
+    value: function getTeams(league) {
+      return this.axios().get("/get-teams/".concat(league));
+    }
+  }, {
+    key: "getPlayers",
+    value: function getPlayers(team) {
+      return this.axios().get("/get-players/".concat(team));
     }
   }], [{
     key: "make",

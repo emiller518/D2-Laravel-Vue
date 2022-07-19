@@ -1,58 +1,34 @@
 <template>
 
+    <div>
+        <select v-model="selectedLeague" v-on:change="changeLeague">
+<!--            NEED FEEDBACK: Is naming it value['name'] like this best practice? Do I edit the query or change the for loop?-->
+            <option v-for="(league) in leagues">{{league['name']}}</option>
+        </select>
+
+        <select v-model="selectedTeam" v-on:change="changeTeam">
+            <option v-for="team in teams">{{team['teamName']}}</option>
+        </select>
+
+        <select>
+            <option>Options</option>
+        </select>
+    </div>
 
     <table>
         <tr>
-            <th v-for="(items, keys) in options[0]">{{keys}}</th>
+            <th v-for="(items, keys) in players[0]">{{keys}}</th>
         </tr>
-        <tr v-for="(items) in options">
+        <tr v-for="(items) in players">
             <td v-for="(item, key) in items">
                 <input v-on:change="event => newPendingChange(event, key, items['playerId'])" :value="item">
             </td>
         </tr>
     </table>
 
-    <button @click="updateVisuals" class="transition duration-200 text-xs font-medium focus:outline-none rounded py-1 px-3 mx-2">
-        Visual Debug
-    </button>
-
     <button @click="submitChanges" class="transition duration-200 text-xs font-medium focus:outline-none rounded py-1 px-3 mx-2">
         Save
     </button>
-
-
-<!--    options:-->
-<!--    {{options}}-->
-
-
-<!--    <div v-for="(items, keys) in options">-->
-<!--        items:-->
-<!--        {{items}}-->
-
-<!--        <div v-for="(item, key) in items">-->
-<!--            sub-item:-->
-<!--                {{item}}-->
-
-<!--            sub-key:-->
-<!--                {{key}}-->
-<!--        </div>-->
-
-<!--        keys: <br>-->
-<!--        {{keys}}-->
-<!--    </div>-->
-
-
-
-<!--    <div v-for="(items, keys) in options[0]">-->
-<!--        {{keys}}-->
-<!--        <template v-if="queryAttributes[keys]">-->
-<!--            <li>{{queryAttributes[keys]['id']}}</li>-->
-<!--        </template>-->
-<!--    </div>-->
-
-<!--    {{queryAttributes['First']}}-->
-
-<!--    {{queryAttributes[0]}}-->
 
 
 </template>
@@ -67,13 +43,36 @@ export default {
     },
     created() {
         this.apiService = ApiService.make();
+
+        // NEED FEEDBACK: Can I chain these together in the separate methods I created to update League & Team ?
+        this.apiService.getLeagues().then(
+            response => {this.leagues = response['data'];
+            this.selectedLeague = response['data'][0]['name'];
+            this.apiService.getTeams(this.selectedLeague).then(
+                response => {this.teams = response['data'];
+                this.selectedTeam = response['data'][0]['teamName'];
+                this.apiService.getPlayers(this.selectedTeam).then(
+                    response => {this.players = response['data'];}
+                    )
+                    }
+                )
+            }
+        );
+
+        console.log(this.options);
     },
 
     data: function() {
         return {
             apiService: null,
             changeLog: [],
+            leagues: [],
+            selectedLeague: null,
+            teams: [],
+            selectedTeam: null,
+            players: {},
 
+            //NEED FEEDBACK: Is there a different file or something I could put this? Kind of an unnecessary wall of text here
             queryAttributes: {
                             gender: {id: 0, script: 'Visualization', optionKey: '0', Category: 'Main', Show: false, Max: 1, MaxF: null, MaxM: null},
                             playerId: {id: 1, script: null, optionKey: 'baseballplayerlocalid', Category: 'AlwaysOn', Show: true, Max: null, MaxF: null, MaxM: null},
@@ -162,22 +161,38 @@ export default {
             for (let i = 0; i < this.changeLog.length; i++) {
 
                 // Select the update script based on the column type, then clear the queue
+                let script = this.changeLog[i]['script'];
+                let playerId = this.changeLog[i]['playerID'];
+                let optionKey = this.changeLog[i]['optionKey'];
+                let optionValue = this.changeLog[i]['optionValue'];
 
-                // NEED FEEDBACK: This looks kind of gross, is there a way to fix this ? Should I declare variables for readability?
-                if (this.changeLog[i]['script'] === 'Visualization'){
-                    this.updateVisuals(this.changeLog[i]['playerID'], this.changeLog[i]['optionKey'], this.changeLog[i]['optionValue'])
-                    console.log(this.changeLog[i])
+                if (script === 'Visualization'){
+                    this.updateVisuals(playerId, optionKey, optionValue)
                 }
-
-                if (this.changeLog[i]['script'] === 'Statistics'){
-                    this.updateStats(this.changeLog[i]['playerID'], this.changeLog[i]['optionKey'], this.changeLog[i]['optionValue'])
-                    console.log(this.changeLog[i])
-
+                else if (script === 'Statistics'){
+                    this.updateStats(playerId, optionKey, optionValue)
                 }
-
             }
             this.changeLog = [];
+        },
+
+        changeLeague(){
+            this.apiService.getTeams(this.selectedLeague).then(
+                        response => {this.teams = response['data'];
+                            this.selectedTeam = response['data'][0]['teamName'];
+                            this.apiService.getPlayers(this.selectedTeam).then(
+                                response => {this.players = response['data'];}
+                            )
+                        }
+                    )
+        },
+
+        changeTeam(){
+            this.apiService.getPlayers(this.selectedTeam).then(
+                response => {this.players = response['data'];}
+            )
         }
+
     }
 }
 

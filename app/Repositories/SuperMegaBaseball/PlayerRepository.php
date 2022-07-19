@@ -18,7 +18,7 @@ class PlayerRepository
             ->get();
     }
 
-    public function getPlayerData()
+    public function getPlayerData($team = 'Rangers')
     {
         return PlayerOption::query()
             ->selectRaw('baseballplayerlocalid playerId,
@@ -36,7 +36,7 @@ class PlayerRepository
             ->leftJoin('t_baseball_player_local_ids', 't_baseball_player_options.baseballplayerlocalid', '=', 't_baseball_player_local_ids.localID')
             ->leftJoin('t_baseball_players', 't_baseball_player_local_ids.GUID', '=', 't_baseball_players.GUID')
             ->leftJoin('t_teams', 't_teams.GUID', '=', 't_baseball_players.teamGUID')
-            ->where( 't_teams.teamName', '=', 'Rangers')
+            ->where( 't_teams.teamName', '=', $team)
             ->groupBy('baseballplayerlocalid')
             ->orderByRaw('max(case when optionkey = 67 then optionvalue end)')
             ->get();
