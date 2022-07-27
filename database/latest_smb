@@ -1,0 +1,458 @@
+-- All player statistics minus colors and @TODOs listed in comments
+SELECT 
+baseballplayerlocalid,
+max(case when optionkey = 66 then optionvalue end) firstname, --66 - first name
+max(case when optionkey = 67 then optionvalue end) lastname, --67 - last name
+max(case when optionkey = 54 then case when optionvalue = 1 then 'P' else 'INF' end end) pos, --54 - primary position: 1=P, 2=C, 3=1B, 4=2B, 5=3B, 6=SS, 7=LF, 8=CF, 9=RF, 10=IF, 11=OF, 12=1B/OF, 13=IF/OF (1-13)
+t_teams.teamName,
+t_baseball_players.age,
+t_baseball_players.power,
+t_baseball_players.contact,
+t_baseball_players.speed,
+t_baseball_players.fielding,
+t_baseball_players.arm,
+t_baseball_players.velocity,
+t_baseball_players.junk,
+t_baseball_players.accuracy,
+max(case when optionkey = 0 then optionvalue end) gender, --0 - gender: 0=male, 1=female
+max(case when optionkey = 4 then optionvalue end) throws, --4 - throwing arm: 0=left, 1=right
+max(case when optionkey = 5 then optionvalue end) bats, --5 - batting stance: 0=left, 1=right, 2=switch
+max(case when optionkey = 8 then optionvalue end) personality, --8 - personality: 0=Competitive, 1=Jolly, 2=Droopy, 3=Tough, 4=Egotistical, 5=Relaxed, 6=Timid (0-6)
+max(case when optionkey = 12 then optionvalue end) head, --12 - head: head value minus 1 (Male 0-13, Female 0-6)
+max(case when optionkey = 14 then optionvalue end) eyebrows, --14 - eyebrows: eyebrow value minus 1 (Male 0-2, Female 0-3)
+max(case when optionkey = 15 then optionvalue end) hair, --15 - hair: hair value, bald=0. (Male 0-18, Female 1-9) 
+max(case when optionkey = 16 then optionvalue end) facialhair, --16 - facial hair: facial hair value, none=0. (Male 0-28, Female 0)
+max(case when optionkey = 17 then optionvalue end) eyeblack, --17 - eye black: eye black value, none=0 (0-12)
+max(case when optionkey = 18 then optionvalue end) helmettar, --18 - helmet tar, 0=speck, 1=gobs (0-1)
+max(case when optionkey = 19 then optionvalue end) eyewear, --19 eyewear: eyewear value, 0=none (0-15) 
+max(case when optionkey = 20 then optionvalue end) number, --20 - number: number value plus 1, starts at 00 (0-100)
+max(case when optionkey = 22 then optionvalue end) physique, --22 - physique: 0=F_Athletic, 1=F_Petite, 2=M_Skinny, 3=M_Average, 4=M_Beefy (Male 2-4, Female 0-1)
+max(case when optionkey = 25 then optionvalue end) elbowguard, --25 - elbow guard: 0=Off, 1=On (0-1)
+max(case when optionkey = 26 then optionvalue end) ankleguard, --26 - ankle guard: 0=Off, 1=On (0-1) 
+max(case when optionkey = 27 then optionvalue end) undershirt, --27 - undershirt: 0=None, 1=Shoulder, 2=Elbow, 3=Forearm, 4=Wrist (0-4)
+max(case when optionkey = 28 then optionvalue end) lefttattoo, --28 - left tattoo: number of left tattoo, 0=none (0-14)
+max(case when optionkey = 29 then optionvalue end) righttattoo, --29 - right tattoo: number of right tattoo, 0=none (0-14)
+max(case when optionkey = 30 then optionvalue end) leftsleeve, --30 - left sleeve: number of sleeve, 0=none (0-9)
+max(case when optionkey = 31 then optionvalue end) rightsleeve, --31 - right sleeve: number of sleeve, 0=none (0-9)
+max(case when optionkey = 32 then optionvalue end) pants, --32 - pants: 0=boot cut, 1=ankle cut, 2=shin cut, 3=ankle cut (0-3)
+max(case when optionkey = 36 then optionvalue end) wristband, --36 - wrist band: 0=none, 1=left, 2=right, 3=both (0-3)
+max(case when optionkey = 39 then optionvalue end) battingglove, --39 - batting glove: batting glove value, 0=none (0-6)
+max(case when optionkey = 40 then optionvalue end) cleats, --40 - cleats: cleat value minus 1 (0-7)
+max(case when optionkey = 41 then optionvalue end) wristtape, --41 - wrist tape: wrist tape value, 0=none (0-8)
+max(case when optionkey = 48 then optionvalue end) windup, --48 - windup: windup value minus 1, 4=N/A (Pitchers 0-4, Players 4)
+max(case when optionkey = 49 then optionvalue end) armangle, --49 - arm angle: 0=Sub, 1=Low, 2=Mid, 3=High, 3=N/A (Pitchers 0-3, Players 3)
+max(case when optionkey = 50 then optionvalue end) battingroutine, --50 - batting routine: batting routine value minus 1 (0-14)
+max(case when optionkey = 51 then optionvalue end) battingstance, --51 - batting stance: batting stance value minus 1 (0-17)
+max(case when optionkey = 52 then optionvalue end) walkupsong, --52 - walkup song: walkup song value minus 1 (0-104) there are song names associated with each
+max(case when optionkey = 53 then optionvalue end) portrait, --53 - portrait: random float value, determines pose and angle for portrait (0-67)
+max(case when optionkey = 54 then optionvalue end) primaryposition, --54 - primary position: 1=P, 2=C, 3=1B, 4=2B, 5=3B, 6=SS, 7=LF, 8=CF, 9=RF, 10=IF, 11=OF, 12=1B/OF, 13=IF/OF (1-13)
+max(case when optionkey = 55 then optionvalue end) secondaryinf, --55 - secondary position (infield): 1=P, 2=C, 3=1B, 4=2B, 5=3B, 6=SS, 7=LF, 8=CF, 9=RF, 10=IF, 11=OF, 12=1B/OF, 13=IF/OF (INF 1-13, P NULL)
+max(case when optionkey = 57 then optionvalue end) secondaryp, --57 - secondary position (pitchers): 1=SP, 2=SP/RP, 3=RP, 4=CP (INF NULL, P 1-4)
+max(case when optionkey = 58 then optionvalue end) fourseam, --58 - pitch type 4-seam Fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 59 then optionvalue end) twoseam, --59 - pitch type 2-seam Fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 60 then optionvalue end) screwball, --60 - pitch type screwball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 61 then optionvalue end) changeup, --61 - pitch type changeup: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 62 then optionvalue end) forkball, --62 - pitch type forkball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 63 then optionvalue end) curveball, -- 63 - pitch type curveball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 64 then optionvalue end) slider, -- 64 - pitch type slider: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 65 then optionvalue end) cutfb, -- 65 - pitch type cut fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 92 then optionvalue end) batstyle, --92 - bat style: bat style value minus 1 (0-5)
+max(case when optionkey = 93 then optionvalue end) batgrip, --93 - bat grip: bat grip value minus 1 (0-3)
+max(case when optionkey = 104 then optionvalue end) helmetstyle --104 - helmet style: helmet style value minus 1 (0-3)
+From t_baseball_player_options 
+LEFT JOIN t_baseball_player_local_ids on t_baseball_player_options.baseballplayerlocalid = t_baseball_player_local_ids.localID
+LEFT JOIN t_baseball_players on t_baseball_player_local_ids.GUID = t_baseball_players.GUID
+LEFT JOIN t_teams on t_teams.GUID = t_baseball_players.teamGUID
+where t_teams.teamName = 'Yankees'
+group by baseballplayerlocalid
+order by max(case when optionkey = 67 then optionvalue end);
+
+
+
+
+SELECT * From t_baseball_player_options where baseballPlayerLocalID = 3113;
+
+
+
+
+
+
+
+
+
+SELECT * From t_pitching_rotations;
+SELECT * From t_batting_orders;
+SELECT * From t_lineups;
+SELECT * from t_starting_lineups;
+SELECT * From t_defensive_positions;
+
+
+
+-- All teams, leagues, conferences, and divisions (for dropdown for team roster)
+SELECT 
+t_leagues.name LeagueName, t_conferences.name ConferenceName, t_divisions.name DivisionName, 
+t_teams.teamName, t_teams.isBuiltIn, t_teams.isGenerated, t_teams.teamType, t_teams.templateTeamFamily, t_teams.isHistorical
+from t_leagues
+LEFT JOIN t_conferences on t_leagues.GUID = t_conferences.leagueGUID
+LEFT JOIN t_divisions on t_conferences.GUID = t_divisions.conferenceGUID
+LEFT JOIN t_division_teams on t_divisions.GUID = t_division_teams.divisionGUID
+LEFT JOIN t_teams ON t_teams.GUID = t_division_teams.teamGUID;
+
+
+
+
+-- TEAM LOGO EDITOR
+
+SELECT hex(t_team_logos.GUID), * 
+From t_team_logos
+LEFT JOIN t_teams on t_team_logos.teamGUID = t_teams.GUID
+LEFT JOIN t_team_logo_types on t_team_logos.logoType = t_team_logo_types.logoType
+LEFT JOIN t_team_logo_element_types on t_team_logos.logoElementType = t_team_logo_element_types.logoElementType
+--LEFT JOIN t_team_logo_attributes on t_team_logos.GUID = t_team_logo_attributes.teamLogogUID
+;
+
+--For some reason, some images have a color key 75. Check these out. It's only on certain logos, see below.
+SELECT * FROM (
+SELECT hex(teamLogogUID), t_team_logo_attributes.*, t_team_logos.*
+From t_team_logo_attributes
+LEFT JOIN t_team_logos on t_team_logos.GUID = t_team_logo_attributes.teamLogoGUID) a
+LEFT JOIN (
+SELECT teamLogoGUID, count(teamLogoGUID) colorcount FROM t_team_logo_attributes group by teamLogoGUID) b
+on a.teamLogoGUID = b.teamLogoGUID
+where logoElementType = 0
+order by logoComponentName;
+
+-- Colors I believe are here:
+SELECT * From t_team_attributes;
+
+
+
+
+SELECT * From t_team_logo_attributes
+LEFT JOIN t_team_logos on t_team_logos.GUID = t_team_logo_attributes.teamLogoGUID
+;
+
+
+
+/* Base stats for players of a given team */
+SELECT * 
+From t_baseball_players 
+LEFT JOIN t_baseball_player_local_ids on t_baseball_players.GUID = t_baseball_player_local_ids.GUID
+where hex(teamGUID) = (SELECT hex(GUID) From t_teams where teamname = 'Rangers');
+
+
+
+SELECT * From t_baseball_player_colors;
+
+
+Select * from t_baseball_player_options
+where baseballplayerlocalid = 1;
+
+
+
+SELECT * From t_lineups;
+
+SELECT * From t_baseball_players;
+
+INSERT INTO t_baseball_players VALUES (HEX('612CBD7615CA4193987BA61FAD9C757C'), NULL, HEX('612CBD7615CA4193987BA61FAD9C757D'), 50, 50, 50, 50, 50, 50, 50, 50, 20);
+
+
+/*Mapping Players Table*/
+SELECT * FROM t_baseball_player_local_ids where localID > 3080;
+
+INSERT INTO t_baseball_player_local_ids VALUES (4000, HEX('612CBD7615CA4193987BA61FAD9C757C'));
+
+
+
+/* @TODO: Map out trait and sub type */
+SELECT * From t_baseball_player_traits;
+
+
+
+/* @TODO: Map out the colors */
+SELECT * From t_baseball_player_colors;
+
+SELECT *, hex(baseballPlayerGUID) From t_defensive_positions
+LEFT JOIN ;
+
+SELECT * From t_starting_lineups;
+
+/* Base info about each team */
+SELECT *
+From t_teams
+LEFT JOIN t_team_local_ids 
+on t_teams.GUID = t_team_local_ids.GUID
+LEFT JOIN t_team_types
+ON t_teams.teamType = t_team_types.teamType;
+
+
+
+
+SELECT hex(teamlogoguid), count(teamLogoGUID) From t_team_logo_attributes
+group by teamlogoguid
+order by count(teamlogoguid) desc;
+
+SELECT * From t_team_logo_attributes 
+where hex(teamlogoguid) = '005053661E714C19A7A87A9C7E7DA85F';
+
+SELECT * From t_team_logo_types
+SELECT * From t_team_logo_element_types
+SELECT * FROM t_team_logos where hex(GUID) = '005053661E714C19A7A87A9C7E7DA85F';
+
+
+
+
+
+
+
+SELECT * 
+From t_leagues;
+
+SELECT * From t_teams
+
+
+
+SELECT * From t_division_teams;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- All player statistics minus colors and @TODOs listed in comments
+SELECT 
+t_batting_orders.*,
+t_pitching_rotations.*,
+
+max(case when t_batting_orders.battingOrder IS NOT NULL then t_batting_orders.battingOrder else t_pitching_rotations.pitchingRotation + 1 end) lineup,
+max(case 
+when t_batting_orders.battingOrder IS NOT NULL then t_batting_orders.battingOrder
+when t_batting_orders.battingOrder IS NULL and optionkey=54 and optionvalue !=1 then 10 
+else t_pitching_rotations.pitchingRotation + 10 end) lineupOrder,
+
+t_baseball_players.GUID,
+baseballplayerlocalid,
+t_batting_orders.battingOrder,
+t_batting_orders.startingLineupID,
+max(case when optionkey = 66 then optionvalue end) firstname_66, --66 - first name
+max(case when optionkey = 67 then optionvalue end) lastname, --67 - last name
+
+
+
+
+
+t_teams.teamName,
+t_baseball_players.age,
+t_baseball_players.power,
+t_baseball_players.contact,
+t_baseball_players.speed,
+t_baseball_players.fielding,
+t_baseball_players.arm,
+t_baseball_players.velocity,
+t_baseball_players.junk,
+t_baseball_players.accuracy,
+max(case when optionkey = 0 then optionvalue end) gender, --0 - gender: 0=male, 1=female
+max(case when optionkey = 4 then optionvalue end) throws, --4 - throwing arm: 0=left, 1=right
+max(case when optionkey = 5 then optionvalue end) bats, --5 - batting stance: 0=left, 1=right, 2=switch
+max(case when optionkey = 8 then optionvalue end) personality, --8 - personality: 0=Competitive, 1=Jolly, 2=Droopy, 3=Tough, 4=Egotistical, 5=Relaxed, 6=Timid (0-6)
+max(case when optionkey = 12 then optionvalue end) head, --12 - head: head value minus 1 (Male 0-13, Female 0-6)
+max(case when optionkey = 14 then optionvalue end) eyebrows, --14 - eyebrows: eyebrow value minus 1 (Male 0-2, Female 0-3)
+max(case when optionkey = 15 then optionvalue end) hair, --15 - hair: hair value, bald=0. (Male 0-18, Female 1-9) 
+max(case when optionkey = 16 then optionvalue end) facialhair, --16 - facial hair: facial hair value, none=0. (Male 0-28, Female 0)
+max(case when optionkey = 17 then optionvalue end) eyeblack, --17 - eye black: eye black value, none=0 (0-12)
+max(case when optionkey = 18 then optionvalue end) helmettar, --18 - helmet tar, 0=speck, 1=gobs (0-1)
+max(case when optionkey = 19 then optionvalue end) eyewear, --19 eyewear: eyewear value, 0=none (0-15) 
+max(case when optionkey = 20 then optionvalue end) number, --20 - number: number value plus 1, starts at 00 (0-100)
+max(case when optionkey = 22 then optionvalue end) physique, --22 - physique: 0=F_Athletic, 1=F_Petite, 2=M_Skinny, 3=M_Average, 4=M_Beefy (Male 2-4, Female 0-1)
+max(case when optionkey = 25 then optionvalue end) elbowguard, --25 - elbow guard: 0=Off, 1=On (0-1)
+max(case when optionkey = 26 then optionvalue end) ankleguard, --26 - ankle guard: 0=Off, 1=On (0-1) 
+max(case when optionkey = 27 then optionvalue end) undershirt, --27 - undershirt: 0=None, 1=Shoulder, 2=Elbow, 3=Forearm, 4=Wrist (0-4)
+max(case when optionkey = 28 then optionvalue end) lefttattoo, --28 - left tattoo: number of left tattoo, 0=none (0-14)
+max(case when optionkey = 29 then optionvalue end) righttattoo, --29 - right tattoo: number of right tattoo, 0=none (0-14)
+max(case when optionkey = 30 then optionvalue end) leftsleeve, --30 - left sleeve: number of sleeve, 0=none (0-9)
+max(case when optionkey = 31 then optionvalue end) rightsleeve, --31 - right sleeve: number of sleeve, 0=none (0-9)
+max(case when optionkey = 32 then optionvalue end) pants, --32 - pants: 0=boot cut, 1=ankle cut, 2=shin cut, 3=ankle cut (0-3)
+max(case when optionkey = 36 then optionvalue end) wristband, --36 - wrist band: 0=none, 1=left, 2=right, 3=both (0-3)
+max(case when optionkey = 39 then optionvalue end) battingglove, --39 - batting glove: batting glove value, 0=none (0-6)
+max(case when optionkey = 40 then optionvalue end) cleats, --40 - cleats: cleat value minus 1 (0-7)
+max(case when optionkey = 41 then optionvalue end) wristtape, --41 - wrist tape: wrist tape value, 0=none (0-8)
+max(case when optionkey = 48 then optionvalue end) windup, --48 - windup: windup value minus 1, 4=N/A (Pitchers 0-4, Players 4)
+max(case when optionkey = 49 then optionvalue end) armangle, --49 - arm angle: 0=Sub, 1=Low, 2=Mid, 3=High, 3=N/A (Pitchers 0-3, Players 3)
+max(case when optionkey = 50 then optionvalue end) battingroutine, --50 - batting routine: batting routine value minus 1 (0-14)
+max(case when optionkey = 51 then optionvalue end) battingstance, --51 - batting stance: batting stance value minus 1 (0-17)
+max(case when optionkey = 52 then optionvalue end) walkupsong, --52 - walkup song: walkup song value minus 1 (0-104) there are song names associated with each
+max(case when optionkey = 53 then optionvalue end) portrait, --53 - portrait: random float value, determines pose and angle for portrait (0-67)
+max(case when optionkey = 54 then optionvalue end) primaryposition, --54 - primary position: 1=P, 2=C, 3=1B, 4=2B, 5=3B, 6=SS, 7=LF, 8=CF, 9=RF, 10=IF, 11=OF, 12=1B/OF, 13=IF/OF (1-13)
+max(case when optionkey = 55 then optionvalue end) secondaryinf, --55 - secondary position (infield): 1=P, 2=C, 3=1B, 4=2B, 5=3B, 6=SS, 7=LF, 8=CF, 9=RF, 10=IF, 11=OF, 12=1B/OF, 13=IF/OF (INF 1-13, P NULL)
+max(case when optionkey = 57 then optionvalue end) secondaryp, --57 - secondary position (pitchers): 1=SP, 2=SP/RP, 3=RP, 4=CP (INF NULL, P 1-4)
+max(case when optionkey = 58 then optionvalue end) fourseam, --58 - pitch type 4-seam Fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 59 then optionvalue end) twoseam, --59 - pitch type 2-seam Fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 60 then optionvalue end) screwball, --60 - pitch type screwball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 61 then optionvalue end) changeup, --61 - pitch type changeup: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 62 then optionvalue end) forkball, --62 - pitch type forkball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 63 then optionvalue end) curveball, -- 63 - pitch type curveball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 64 then optionvalue end) slider, -- 64 - pitch type slider: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 65 then optionvalue end) cutfb, -- 65 - pitch type cut fastball: 0=no, 1=yes (INF NULL, P 0-1)
+max(case when optionkey = 92 then optionvalue end) batstyle, --92 - bat style: bat style value minus 1 (0-5)
+max(case when optionkey = 93 then optionvalue end) batgrip, --93 - bat grip: bat grip value minus 1 (0-3)
+max(case when optionkey = 104 then optionvalue end) helmetstyle --104 - helmet style: helmet style value minus 1 (0-3)
+From t_baseball_player_options 
+LEFT JOIN t_baseball_player_local_ids on t_baseball_player_options.baseballplayerlocalid = t_baseball_player_local_ids.localID
+LEFT JOIN t_baseball_players on t_baseball_player_local_ids.GUID = t_baseball_players.GUID
+LEFT JOIN t_teams on t_teams.GUID = t_baseball_players.teamGUID
+
+
+LEFT JOIN t_batting_orders on t_baseball_players.GUID = t_batting_orders.baseballPlayerGUID and t_batting_orders.startingLineupID in (SELECT max(startingLineupID) FROM t_starting_lineups group by lineupGUID)
+LEFT JOIN t_pitching_rotations on t_pitching_rotations.pitcherGUID = t_baseball_players.GUID
+
+where t_teams.teamName = 'Yankees'
+group by baseballplayerlocalid
+order by max(case when optionkey = 67 then optionvalue end);
+
+
+
+
+
+
+
+SELECT * From t_lineups 
+LEFT JOIN t_teams on t_lineups.teamGUID = t_teams.GUID
+LEFT JOIN t_starting_lineups on t_lineups.GUID = t_starting_lineups.lineupGUID and t_starting_lineups.startingLineupID in (SELECT min(startingLineupID) FROM t_starting_lineups group by lineupGUID)
+LEFT JOIN t_batting_orders on t_starting_lineups.startingLineupID = t_batting_orders.startingLineupID
+where t_teams.TeamName = 'Rangers'
+
+
+
+SELECT * From t_batting_orders 
+
+SELECT * From t_starting_lineups
+
+SELECT * From t_batting_orders
+SELECT * From t_pitching_rotations
+
+
+
+SELECT * From t_baseball_player_options 
+where baseballplayerlocalid = 3000 
+and optionKey = 0;
+
+Update t_baseball_player_options
+Set optionValue = 1
+where baseballplayerlocalid = 3000 
+and optionKey = 0;
+
+update t_baseball_players set speed = 69 where speed is not null 
+and GUID in (select GUID from t_baseball_player_local_ids where localID = 2935);
+
+
+update t_baseball_players set age = 32 where age is not null and GUID in (select GUID from t_baseball_player_local_ids where localID = 2935)
+
+
+SELECT * From t_baseball_players where GUID in (select GUID from t_baseball_player_local_ids where localid = 3129);
+
+
+SELECT * From t_baseball_player_local_ids;
+
+SELECT * From t_baseball_player_options;
+
+
+SELECT 
+t_leagues.name LeagueName, t_teams.teamName
+from t_leagues
+LEFT JOIN t_conferences on t_leagues.GUID = t_conferences.leagueGUID
+LEFT JOIN t_divisions on t_conferences.GUID = t_divisions.conferenceGUID
+LEFT JOIN t_division_teams on t_divisions.GUID = t_division_teams.divisionGUID
+LEFT JOIN t_teams ON t_teams.GUID = t_division_teams.teamGUID;
+
+
+
+
+Update t_baseball_player_options Set optionValue = 1 where baseballplayerlocalid = 3000 and optionKey = 0;
+
+SELECT * From t_baseball_player_options where baseballplayerlocalid = 3000 ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- All player statistics minus colors and @TODOs listed in comments
+SELECT 
+t_batting_orders.*,
+t_pitching_rotations.*,
+
+max(case when t_pitching_rotations.pitchingRotation = 0 then 1 when  t_batting_orders.battingOrder IS NOT NULL then t_batting_orders.battingOrder when t_pitching_rotations.pitchingRotation IS NOT NULL then t_pitching_rotations.pitchingRotation + 1 
+when optionkey = 54 and optionvalue = 1 then 'Bullpen' else 'Bench'
+end) lineup,
+
+
+
+
+t_baseball_players.GUID,
+baseballplayerlocalid,
+t_batting_orders.battingOrder,
+t_batting_orders.startingLineupID,
+max(case when optionkey = 66 then optionvalue end) firstname_66, --66 - first name
+max(case when optionkey = 67 then optionvalue end) lastname, --67 - last name
+max(case when optionkey = 54 then optionvalue end) primarypos, --67 - last name
+max(case when optionkey = 57 then optionvalue end) secondaryP, --67 - last name
+
+
+
+
+
+t_teams.teamName
+From t_baseball_player_options 
+LEFT JOIN t_baseball_player_local_ids on t_baseball_player_options.baseballplayerlocalid = t_baseball_player_local_ids.localID
+LEFT JOIN t_baseball_players on t_baseball_player_local_ids.GUID = t_baseball_players.GUID
+LEFT JOIN t_teams on t_teams.GUID = t_baseball_players.teamGUID
+LEFT JOIN t_batting_orders on t_baseball_players.GUID = t_batting_orders.baseballPlayerGUID 
+LEFT JOIN t_pitching_rotations on t_pitching_rotations.pitcherGUID = t_baseball_players.GUID
+where t_teams.teamName = 'Crocodons' --and (t_batting_orders.startingLineupID in (SELECT max(startingLineupID) FROM t_starting_lineups group by lineupGUID) or t_batting_orders.startingLineupID IS NULL)
+group by baseballplayerlocalid
+order by max(case when optionkey = 57 and optionvalue = 1 then t_pitching_rotations.pitchingRotation + 11 when t_batting_orders.battingOrder IS NOT NULL then t_batting_orders.battingOrder when t_batting_orders.battingOrder IS NULL and optionkey=54 and optionvalue !=1 then 10 when optionkey = 57 and optionvalue = 2 then 15 when optionkey = 57 and optionvalue = 3 then 16 when optionkey = 57 and optionvalue = 4 then 17 end)
+
+

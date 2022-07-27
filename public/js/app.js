@@ -22691,6 +22691,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_api_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/api/api */ "./resources/js/vue/SuperMegaBaseball/services/api/api.js");
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -22716,7 +22728,6 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     });
-    console.log(this.options);
   },
   data: function data() {
     return {
@@ -22727,7 +22738,10 @@ __webpack_require__.r(__webpack_exports__);
       teams: [],
       selectedTeam: null,
       players: {},
+      optionTypes: ['Stats', 'Main', 'Head', 'Body', 'Gear', 'Swagger', 'Pitches'],
+      testing: null,
       //NEED FEEDBACK: Is there a different file or something I could put this? Kind of an unnecessary wall of text here
+      //NEED FEEDBACK: For some reason when I'm trying to match the keys to the dropdown options, the types aren't compatible. Even if I put the keys in quotes it's still number type. Why? See: Line 36, used == for === for comparison
       queryAttributes: {
         gender: {
           id: 0,
@@ -22737,7 +22751,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            0: 'Male',
+            1: 'Female'
+          }
         },
         playerId: {
           id: 1,
@@ -22747,7 +22766,19 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: null,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
+        },
+        lineup: {
+          id: 2,
+          script: null,
+          optionKey: 'lineup',
+          Category: 'AlwaysOn',
+          Show: true,
+          Max: null,
+          MaxF: null,
+          MaxM: null,
+          type: 'int'
         },
         "throws": {
           id: 4,
@@ -22757,7 +22788,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Left',
+            '1': 'Right'
+          }
         },
         bats: {
           id: 5,
@@ -22767,7 +22803,13 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 2,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Left',
+            '1': 'Right',
+            '2': 'Switch'
+          }
         },
         personality: {
           id: 8,
@@ -22777,7 +22819,17 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 6,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Competitive',
+            '1': 'Jolly',
+            '2': 'Droopy',
+            '3': 'Tough',
+            '4': 'Egotistical',
+            '5': 'Relaxed',
+            '6': 'Timid'
+          }
         },
         head: {
           id: 12,
@@ -22787,7 +22839,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 13,
           MaxF: 6,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         eyebrows: {
           id: 14,
@@ -22797,7 +22850,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: 3,
-          MaxM: 2
+          MaxM: 2,
+          type: 'imglist'
         },
         hair: {
           id: 15,
@@ -22807,7 +22861,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 18,
           MaxF: 9,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         facialHair: {
           id: 16,
@@ -22817,7 +22872,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 28,
           MaxF: 0,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         eyeBlack: {
           id: 17,
@@ -22827,7 +22883,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 12,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         helmetTar: {
           id: 18,
@@ -22837,7 +22894,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Speck',
+            '1': 'Gobs'
+          }
         },
         eyeWear: {
           id: 19,
@@ -22847,7 +22909,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 15,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         number: {
           id: 20,
@@ -22857,7 +22920,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 100,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         physique: {
           id: 22,
@@ -22867,7 +22931,15 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 4,
           MaxF: 1,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Athletic(F)',
+            '1': 'Petite(F)',
+            '2': 'Skinny(M)',
+            '3': 'Average(M)',
+            '4': 'Beefy(M)'
+          }
         },
         elbowGuard: {
           id: 25,
@@ -22877,7 +22949,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Off',
+            '1': 'On'
+          }
         },
         ankleGuard: {
           id: 26,
@@ -22887,7 +22964,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'Off',
+            '1': 'On'
+          }
         },
         undershirt: {
           id: 27,
@@ -22897,7 +22979,15 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 4,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'None',
+            '1': 'Shoulder',
+            '2': 'Elbow',
+            '3': 'Forearm',
+            '4': 'Wrist'
+          }
         },
         leftTattoo: {
           id: 28,
@@ -22907,7 +22997,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 14,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         rightTattoo: {
           id: 29,
@@ -22917,7 +23008,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 14,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         leftSleeve: {
           id: 30,
@@ -22927,7 +23019,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 9,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         rightSleeve: {
           id: 31,
@@ -22937,7 +23030,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 9,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         pants: {
           id: 32,
@@ -22947,7 +23041,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdownx'
         },
         wristband: {
           id: 36,
@@ -22957,7 +23052,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdownx'
         },
         battingGlove: {
           id: 39,
@@ -22967,7 +23063,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 6,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         cleats: {
           id: 40,
@@ -22977,7 +23074,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 7,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         wristTape: {
           id: 41,
@@ -22987,7 +23085,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 8,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         windup: {
           id: 48,
@@ -22997,7 +23096,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 4,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         armAngle: {
           id: 49,
@@ -23007,7 +23107,19 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdownPosition',
+          dropdownOptions: {
+            'P': {
+              '0': 'Sub',
+              '1': 'Low',
+              '2': 'Mid',
+              '3': 'High'
+            },
+            'F': {
+              '3': 'N/A'
+            }
+          }
         },
         battingRoutine: {
           id: 50,
@@ -23017,7 +23129,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 14,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         battingStance: {
           id: 51,
@@ -23027,7 +23140,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 17,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         walkUpSong: {
           id: 52,
@@ -23037,7 +23151,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 104,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         portrait: {
           id: 53,
@@ -23047,7 +23162,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 67,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         primaryPosition: {
           id: 54,
@@ -23057,9 +23173,25 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 13,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '1': 'P',
+            '2': 'C',
+            '3': '1B',
+            '4': 'C',
+            '5': '3B',
+            '6': 'SS',
+            '7': 'LF',
+            '8': 'CF',
+            '9': 'RF',
+            '10': 'IF',
+            '11': 'OF',
+            '12': '1B/OF',
+            '13': 'IF/OF'
+          }
         },
-        secondaryPosF: {
+        secondaryPosition: {
           id: 55,
           script: 'Visualization',
           optionKey: '55',
@@ -23067,17 +23199,47 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 13,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdownPosition',
+          dropdownOptions: {
+            'F': {
+              '0': null,
+              '1': 'P',
+              '2': 'C',
+              '3': '1B',
+              '4': 'C',
+              '5': '3B',
+              '6': 'SS',
+              '7': 'LF',
+              '8': 'CF',
+              '9': 'RF',
+              '10': 'IF',
+              '11': 'OF',
+              '12': '1B/OF',
+              '13': 'IF/OF'
+            },
+            'P': {
+              '1': 'SP',
+              '2': 'SP/RP',
+              '3': 'RP',
+              '4': 'CP'
+            }
+          }
         },
-        secondaryPosP: {
-          id: 57,
-          script: 'Visualization',
-          optionKey: '57',
-          Category: 'Main',
+        positionType: {
+          id: 99,
+          script: null,
+          optionKey: '99',
+          Category: 'Hidden',
           Show: false,
-          Max: 4,
+          Max: null,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'Hidden',
+          dropdownOptions: {
+            'P': 'Pitcher',
+            'F': 'Fielder'
+          }
         },
         pFourSeam: {
           id: 58,
@@ -23087,7 +23249,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pTwoSeam: {
           id: 59,
@@ -23097,7 +23264,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pScrewBall: {
           id: 60,
@@ -23107,7 +23279,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pChangeUp: {
           id: 61,
@@ -23117,7 +23294,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pForkBall: {
           id: 62,
@@ -23127,7 +23309,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pCurveBall: {
           id: 63,
@@ -23137,7 +23324,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pSlider: {
           id: 64,
@@ -23147,7 +23339,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         pCutFastBall: {
           id: 65,
@@ -23157,7 +23354,12 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 1,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'dropdown',
+          dropdownOptions: {
+            '0': 'No',
+            '1': 'Yes'
+          }
         },
         first: {
           id: 66,
@@ -23167,7 +23369,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 10,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'string'
         },
         last: {
           id: 67,
@@ -23177,7 +23380,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 10,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'string'
         },
         batStyle: {
           id: 92,
@@ -23187,7 +23391,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 5,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         batGrip: {
           id: 93,
@@ -23197,7 +23402,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'imglist'
         },
         helmetStyle: {
           id: 104,
@@ -23207,7 +23413,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: false,
           Max: 3,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         power: {
           id: 105,
@@ -23217,7 +23424,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         contact: {
           id: 106,
@@ -23227,7 +23435,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         speed: {
           id: 107,
@@ -23237,7 +23446,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         fielding: {
           id: 108,
@@ -23247,7 +23457,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         arm: {
           id: 109,
@@ -23257,7 +23468,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         velocity: {
           id: 110,
@@ -23267,7 +23479,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         junk: {
           id: 111,
@@ -23277,7 +23490,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         accuracy: {
           id: 112,
@@ -23287,7 +23501,8 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 99,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         },
         age: {
           id: 113,
@@ -23297,11 +23512,13 @@ __webpack_require__.r(__webpack_exports__);
           Show: true,
           Max: 50,
           MaxF: null,
-          MaxM: null
+          MaxM: null,
+          type: 'int'
         }
       }
     };
   },
+  computed: {},
   methods: {
     updateStats: function updateStats(playerId, optionKey, optionValue) {
       this.apiService.updateStats(playerId, optionKey, optionValue);
@@ -23327,7 +23544,11 @@ __webpack_require__.r(__webpack_exports__);
         var script = this.changeLog[i]['script'];
         var playerId = this.changeLog[i]['playerID'];
         var optionKey = this.changeLog[i]['optionKey'];
-        var optionValue = this.changeLog[i]['optionValue'];
+        var optionValue = this.changeLog[i]['optionValue']; // number is zero indexed, so if the option key is for number, add one to correct the value
+
+        if (optionKey === 20) {
+          optionValue += 1;
+        }
 
         if (script === 'Visualization') {
           this.updateVisuals(playerId, optionKey, optionValue);
@@ -23356,6 +23577,33 @@ __webpack_require__.r(__webpack_exports__);
       this.apiService.getPlayers(this.selectedTeam).then(function (response) {
         _this3.players = response['data'];
       });
+    },
+    showHideColumns: function showHideColumns(event) {
+      for (var _i = 0, _Object$entries = Object.entries(this.queryAttributes); _i < _Object$entries.length; _i++) {
+        var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+            key = _Object$entries$_i[0],
+            value = _Object$entries$_i[1];
+
+        if (value['Category'] === event.target.value || value['Category'] === 'AlwaysOn') {
+          value['Show'] = true;
+        } else {
+          value['Show'] = false;
+        }
+      }
+    },
+    showDropdown: function showDropdown(key, item) {
+      if (this.queryAttributes[key]['type'] === 'dropdown' && this.queryAttributes[key]['Show'] && item !== null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    showNewDropdown: function showNewDropdown(key, item) {
+      if (this.queryAttributes[key]['type'] === 'dropdownPosition' && this.queryAttributes[key]['Show'] && item !== null) {
+        return true;
+      } else {
+        return false;
+      }
     }
   }
 });
@@ -23899,12 +24147,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", null, "Options")], -1
-/* HOISTED */
-);
-
-var _hoisted_2 = ["onChange", "value"];
+var _hoisted_1 = {
+  key: 0
+};
+var _hoisted_2 = ["onChange", "disabled", "value"];
+var _hoisted_3 = ["disabled"];
+var _hoisted_4 = ["value", "selected"];
+var _hoisted_5 = ["disabled"];
+var _hoisted_6 = ["value", "selected"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
@@ -23936,29 +24186,71 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* UNKEYED_FRAGMENT */
   ))], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTeam]]), _hoisted_1]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.players[0], function (items, keys) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keys), 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTeam]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    onChange: _cache[4] || (_cache[4] = function (event) {
+      return $options.showHideColumns(event);
+    })
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.optionTypes, function (option) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1
     /* TEXT */
     );
   }), 256
   /* UNKEYED_FRAGMENT */
+  ))], 32
+  /* HYDRATE_EVENTS */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.players[0], function (items, keys) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("th", null, [_ctx.queryAttributes[keys]['Show'] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("b", _hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(keys), 1
+    /* TEXT */
+    )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 256
+  /* UNKEYED_FRAGMENT */
   ))]), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.players, function (items) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(items, function (item, key) {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("                NEED FEEDBACK: Is a chain of different inputs / selects based on different logic the best way to go about this? "), _ctx.queryAttributes[key]['Show'] && _ctx.queryAttributes[key]['type'] !== 'dropdown' && _ctx.queryAttributes[key]['type'] !== 'dropdownPosition' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("input", {
+        key: 0,
         onChange: function onChange(event) {
           return $options.newPendingChange(event, key, items['playerId']);
         },
+        disabled: !_ctx.queryAttributes[key]['script'] || item === null,
         value: item
       }, null, 40
       /* PROPS, HYDRATE_EVENTS */
-      , _hoisted_2)]);
+      , _hoisted_2)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.showDropdown(key, item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+        key: 1,
+        disabled: item === null
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.queryAttributes[key]['dropdownOptions'], function (dropdownOption, dropdownKey) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          value: dropdownKey,
+          selected: item == dropdownKey
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dropdownOption), 9
+        /* TEXT, PROPS */
+        , _hoisted_4);
+      }), 256
+      /* UNKEYED_FRAGMENT */
+      ))], 8
+      /* PROPS */
+      , _hoisted_3)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.showNewDropdown(key, item) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+        key: 2,
+        disabled: item === null
+      }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.queryAttributes[key]['dropdownOptions'][items['positionType']], function (dropdownOption, dropdownKey) {
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+          value: dropdownKey,
+          selected: item == dropdownKey
+        }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dropdownOption), 9
+        /* TEXT, PROPS */
+        , _hoisted_6);
+      }), 256
+      /* UNKEYED_FRAGMENT */
+      ))], 8
+      /* PROPS */
+      , _hoisted_5)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
     }), 256
     /* UNKEYED_FRAGMENT */
     ))]);
   }), 256
   /* UNKEYED_FRAGMENT */
   ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[4] || (_cache[4] = function () {
+    onClick: _cache[5] || (_cache[5] = function () {
       return $options.submitChanges && $options.submitChanges.apply($options, arguments);
     }),
     "class": "transition duration-200 text-xs font-medium focus:outline-none rounded py-1 px-3 mx-2"

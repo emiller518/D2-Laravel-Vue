@@ -37,3 +37,13 @@ Route::get('/', function () {
 Route::get('/player/{id}', 'App\Http\Controllers\Basketball\PlayerController@playerProfile');
 Route::get('/team/{abbr}', 'App\Http\Controllers\Basketball\TeamController@year');
 //Route::get('/team/{abbr}/{year}', 'App\Http\Controllers\TeamController@teamYear');
+
+//Route::prefix('/v1')->group(function() {
+//    Route::prefix('/smb')->controller(SMBEditorController::class)->group(function(){
+//        Route::put('update-stats/{id}', 'updateStats');
+//        Route::put('update-visuals/{id}', 'updateVisuals');
+//        Route::get('get-leagues', 'getLeagues');
+//        Route::get('get-teams/{league}', 'getTeams');
+//        Route::get('get-players/{team}', 'getPlayers');
+//    });
+//});
