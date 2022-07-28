@@ -39,6 +39,7 @@
     <a href="/vuechartjs">Vue Chartjs</a> <br>
     <a href="/chartjs">Chartjs</a> <br>
     <a href="/d3">d3</a>
+    <a href="/gamenight/">Game Night</a>
 
     <div id="app">
         <example></example>

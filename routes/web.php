@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GameNight\GameNightController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,12 +39,28 @@ Route::get('/player/{id}', 'App\Http\Controllers\Basketball\PlayerController@pla
 Route::get('/team/{abbr}', 'App\Http\Controllers\Basketball\TeamController@year');
 //Route::get('/team/{abbr}/{year}', 'App\Http\Controllers\TeamController@teamYear');
 
-//Route::prefix('/v1')->group(function() {
-//    Route::prefix('/smb')->controller(SMBEditorController::class)->group(function(){
-//        Route::put('update-stats/{id}', 'updateStats');
-//        Route::put('update-visuals/{id}', 'updateVisuals');
-//        Route::get('get-leagues', 'getLeagues');
-//        Route::get('get-teams/{league}', 'getTeams');
-//        Route::get('get-players/{team}', 'getPlayers');
-//    });
-//});
+
+
+
+Route::prefix('/gamenight')->controller(GameNightController::class)->group(function() {
+
+    Route::get('/', 'home'); // Homepage / Game Night Overview
+    Route::get('/session/{date}', 'getSession'); // Overview for specific game session
+    Route::get('/admin', 'admin');
+
+    Route::prefix('/players')->group(function(){
+        Route::get('/', 'getPlayers');
+        Route::get('/{id}', 'getPlayer');
+    });
+
+    Route::prefix('/compatible-games')->group(function(){
+        Route::get('/', 'getGames');
+        Route::get('/{gameName}', 'getGame');
+    });
+
+    Route::prefix('/matches')->group(function(){
+        Route::get('/', 'getMatches');
+        Route::get('/{matchId}', 'getMatch');
+    });
+
+});

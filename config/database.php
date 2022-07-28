@@ -43,6 +43,15 @@ return [
             //'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
 
+        'gamenight_sqlite' => [
+            'driver' => env('SQLITE_CONNECTION_GN'),
+            'database' => env('DB_DATABASE/..', database_path('gamenight.sqlite')),
+
+            'prefix' => '',
+            //'url' => env('DATABASE_URL'),
+            //'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
